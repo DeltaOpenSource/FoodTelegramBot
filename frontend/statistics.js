@@ -7,9 +7,6 @@ document.getElementById('cartDelete').addEventListener('click', () => {
 });
 
 let cartItems = JSON.parse(localStorage.getItem("EatToday")) || [];
-console.log(cartItems)
-
-const cartItems = JSON.parse(localStorage.getItem("EatToday")) || [];
 
 const dishesList = document.getElementById('dishes-list');
 const totalCaloriesEl = document.getElementById('total-calories');
