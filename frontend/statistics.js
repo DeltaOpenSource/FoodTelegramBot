@@ -27,5 +27,23 @@ if (cartItems.length === 0) {
        const li = document.createElement('li');
        li.textContent = item.name;
        dishesList.appendChild(li)
+
+       const desc = item.description;
+
+       const calMatch = desc.match(/Калории:\s*(\d+)/);
+       const protMatch = desc.match(/Белки:\s*([\d.]+)/);
+       const fatMatch = desc.match(/Жиры:\s*([\d.]+)/);
+       const carbMatch = desc.match(/Углеводы:\s*([\d.]+)/);
+
+       if (calMatch) totalCal += parseInt(calMatch[1]);
+       if (protMatch) totalProt += parseFloat(protMatch[1]);
+       if (fatMatch) totalFat += parseFloat(fatMatch[1]);
+       if (carbMatch) totalCarb += parseFloat(carbMatch[1]);
+              
     })
 }
+
+totalCaloriesEl.textContent = totalCal;
+totalProteinEl.textContent = totalProt;
+totalFatEl.textContent = totalFat;
+totalCarbsEl.textContent = totalCarb;
