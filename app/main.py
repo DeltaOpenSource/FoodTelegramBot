@@ -22,14 +22,18 @@ def parse_message(message):
 
 @app.post('/setwebhook')
 async def setwebhook():
-    webhook_url = f"https://api.telegram.org/bot{TOKEN}/setWebhook"
+    url = f"https://api.telegram.org/bot{TOKEN}/setWebhook"
+    payload = {
+        "url": "https://backend-food-telegram-bot.vercel.app/webhook",
+        "allowed_updates": ["message", "callback_query", "my_chat_member"]
+    }
     async with httpx.AsyncClient() as client:
-        response = await client.get(webhook_url)
+        response = await client.post(url, json=payload)
 
     if response.status_code == 200:
-        return JSONResponse(content={"status": "Webhook successfully set"}, status_code=200)
+        return JSONResponse(content={"status": "Webhook set with my_chat_member support"}, status_code=200)
     else:
-        return JSONResponse(content={"error": f"Error setting webhook: {response.text}"}, status_code=response.status_code)
+        return JSONResponse(content={"error": response.text}, status_code=response.status_code)
 
 @app.on_event("startup")
 async def startup_event():
