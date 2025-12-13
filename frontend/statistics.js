@@ -3,7 +3,8 @@ document.getElementById('cart').addEventListener('click', () => {
 });
 
 document.getElementById('cartDelete').addEventListener('click', () => {
-          localStorage.clear();
+    localStorage.removeItem("EatToday"); 
+    location.reload(); 
 });
 
 let cartItems = JSON.parse(localStorage.getItem("EatToday")) || [];
