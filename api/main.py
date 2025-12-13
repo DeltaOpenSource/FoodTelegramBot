@@ -21,7 +21,7 @@ def parse_message(message):
     return chat_id, txt
 
 @app.post('/setwebhook')
-async def set_webhook():
+async def setwebhook():
     webhook_url = f"https://api.telegram.org/bot{TOKEN}/setWebhook?url={os.environ.get('VERCEL_URL')}/webhook&allowed_updates=%5B%22message%22,%22callback_query%22%5D"
     async with httpx.AsyncClient() as client:
         response = await client.get(webhook_url)
@@ -33,7 +33,7 @@ async def set_webhook():
 
 @app.on_event("startup")
 async def startup_event():
-    await set_webhook()
+    await setwebhook()
 
 
 async def tel_send_message(chat_id, text):
