@@ -239,6 +239,10 @@
         const cartCountElement = document.getElementById('cart-count');
         const dishesContainer = document.getElementById('dishes-container');
 
+        document.getElementById('cart').addEventListener('click', () => {
+          window.location.href = 'statistics.html';
+        });
+
 
         function addCard(IdDish) {
           const dish = dishes.find(d => d.id === dishId);
