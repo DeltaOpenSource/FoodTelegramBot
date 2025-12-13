@@ -43,7 +43,7 @@ if (cartItems.length === 0) {
     })
 }
 
-totalCaloriesEl.textContent = totalCal;
-totalProteinEl.textContent = totalProt;
-totalFatEl.textContent = totalFat;
-totalCarbsEl.textContent = totalCarb;
+totalCaloriesEl.textContent = `Калории: ${totalCal} ккал`;
+totalProteinEl.textContent = `Белки: ${totalProt.toFixed(1)} г`;
+totalFatEl.textContent = `Жиры: ${totalFat.toFixed(1)} г`;
+totalCarbsEl.textContent = `Углеводы: ${totalCarb.toFixed(1)} г`;
