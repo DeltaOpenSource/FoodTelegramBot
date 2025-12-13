@@ -1,1 +1,348 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food App - Гастрономическое приложение</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #ff7b25, #ff5e62);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .dishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .dish-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dish-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .dish-image {
+            width: 100%;
+            height: 180px;
+            background-color: #ffd8cc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #ff7b25;
+        }
+
+        .dish-info {
+            padding: 20px;
+        }
+
+        .dish-name {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .dish-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .dish-price {
+            font-weight: bold;
+            color: #ff5e62;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .add-btn {
+            background: linear-gradient(to right, #ff7b25, #ff5e62);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: opacity 0.3s;
+        }
+
+        .add-btn:hover {
+            opacity: 0.9;
+        }
+
+        .add-btn.added {
+            background: #4CAF50;
+        }
+
+        .cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #ff5e62;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(255, 94, 98, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cart:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ffd8cc;
+            color: #ff5e62;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .dishes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">FoodApp</div>
+            <div class="tagline">Вкусные блюда на любой вкус</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="dishes-grid" id="dishes-container">
+            <!-- Блюда будут добавлены через JavaScript -->
+        </div>
+    </div>
+
+    <div class="cart" id="cart">
+        🛒
+        <div class="cart-count" id="cart-count">0</div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 FoodApp - Все права защищены</p>
+        </div>
+    </footer>
+
+    <script>
+        // Массив с блюдами
+        const dishes = [
+            {
+                id: 1,
+                name: "Паста Карбонара",
+                description: "Классическая итальянская паста с соусом из бекона, яиц и сыра.",
+                price: 450,
+                emoji: "🍝"
+            },
+            {
+                id: 2,
+                name: "Пицца Маргарита",
+                description: "Традиционная пицца с томатным соусом, моцареллой и базиликом.",
+                price: 550,
+                emoji: "🍕"
+            },
+            {
+                id: 3,
+                name: "Стейк Рибай",
+                description: "Нежный стейк с идеальной прожаркой и ароматными травами.",
+                price: 890,
+                emoji: "🥩"
+            },
+            {
+                id: 4,
+                name: "Салат Цезарь",
+                description: "Свежий салат с курицей, крутонами и соусом Цезарь.",
+                price: 320,
+                emoji: "🥗"
+            },
+            {
+                id: 5,
+                name: "Бургер Классический",
+                description: "Сочная говяжья котлета с овощами и специальным соусом.",
+                price: 380,
+                emoji: "🍔"
+            },
+            {
+                id: 6,
+                name: "Суши Филадельфия",
+                description: "Нежные роллы с лососем, сливочным сыром и огурцом.",
+                price: 420,
+                emoji: "🍣"
+            },
+            {
+                id: 7,
+                name: "Тирамису",
+                description: "Итальянский десерт с кофейным вкусом и нежным кремом.",
+                price: 280,
+                emoji: "🍰"
+            },
+            {
+                id: 8,
+                name: "Куриные крылышки",
+                description: "Хрустящие куриные крылышки в пикантном соусе.",
+                price: 350,
+                emoji: "🍗"
+            },
+            {
+                id: 9,
+                name: "Гаспачо",
+                description: "Охлажденный испанский суп из свежих томатов и овощей.",
+                price: 290,
+                emoji: "🍅"
+            },
+            {
+                id: 10,
+                name: "Шоколадный фондан",
+                description: "Десерт с текучей шоколадной начинкой и мороженым.",
+                price: 310,
+                emoji: "🍫"
+            }
+        ];
+
+        let cartItems = [];
+        const cartCountElement = document.getElementById('cart-count');
+        const dishesContainer = document.getElementById('dishes-container');
+
+        function renderDishes() {
+            dishesContainer.innerHTML = '';
+            
+            dishes.forEach(dish => {
+                const dishElement = document.createElement('div');
+                dishElement.classList.add('dish-card');
+                
+                dishElement.innerHTML = `
+                    <div class="dish-image">${dish.emoji}</div>
+                    <div class="dish-info">
+                        <h3 class="dish-name">${dish.name}</h3>
+                        <p class="dish-description">${dish.description}</p>
+                        <p class="dish-price">${dish.price} руб.</p>
+                        <button class="add-btn" data-id="${dish.id}">Добавить</button>
+                    </div>
+                `;
+                
+                dishesContainer.appendChild(dishElement);
+            });
+            
+
+            document.querySelectorAll('.add-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const dishId = parseInt(this.getAttribute('data-id'));
+                    addToCart(dishId);
+                });
+            });
+        }
+
+        function addToCart(dishId) {
+            const dish = dishes.find(item => item.id === dishId);
+            
+            if (dish) {
+                cartItems.push(dish);
+                updateCartCount();
+                
+                const button = document.querySelector(`.add-btn[data-id="${dishId}"]`);
+                button.textContent = 'Добавлено!';
+                button.classList.add('added');
+                
+                setTimeout(() => {
+                    button.textContent = 'Добавить';
+                    button.classList.remove('added');
+                }, 1500);
+            }
+        }
+
+        function updateCartCount() {
+            cartCountElement.textContent = cartItems.length;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderDishes();
+            updateCartCount();
+            
+            document.getElementById('cart').addEventListener('click', function() {
+                if (cartItems.length > 0) {
+                    alert(`В корзине ${cartItems.length} блюд на сумму ${calculateTotal()} руб.`);
+                } else {
+                    alert('Корзина пуста!');
+                }
+            });
+        });
+
+        function calculateTotal() {
+            return cartItems.reduce((total, item) => total + item.price, 0);
+        }
+    </script>
+</body>
+</html>
