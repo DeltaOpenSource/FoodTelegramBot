@@ -51,13 +51,11 @@ const dishes = [
           window.location.href = 'statistics.html';
         });
 
-
         function addCard(dishId) {
           const dish = dishes.find(d => d.id === dishId);
           cartItems.push(dish);
           localStorage.setItem("EatToday", JSON.stringify(cartItems));
         }
-
 
         function renderDishes() {
             dishesContainer.innerHTML = '';
@@ -87,5 +85,4 @@ const dishes = [
                 
             });
         }
-
         renderDishes()
